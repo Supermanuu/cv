@@ -1,0 +1,1 @@
+docker build -t (Get-Content .\tag) .

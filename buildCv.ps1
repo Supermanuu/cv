@@ -1,0 +1,1 @@
+docker run --rm -v ${PWD}:/root (Get-Content .\docker\tag)

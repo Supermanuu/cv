@@ -1,0 +1,35 @@
+
+\documentclass[12pt]{report} %fuente a 12pt
+
+% MÁRGENES: 2,5 cm sup. e inf.; 3 cm izdo. y dcho.
+\usepackage[
+a4paper,
+vmargin=0.5cm,
+hmargin=0.5cm
+]{geometry}
+
+% soporte para generar PDF/A
+\usepackage[a-1b]{pdfx}
+
+\usepackage{txfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[babel, spanish=spanish]{csquotes}
+
+\begin{document}
+
+% Word splitting addition
+\input{wordSplitting}
+
+% No numbering
+\pagenumbering{gobble}
+
+Manuel Pascual López
+
+681019339
+
+manuel.pascuall@hotmail.com
+
+
+\end{document}
