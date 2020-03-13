@@ -26,11 +26,11 @@ jobs:
     - name: Insalling Latex dependencies
       run: |
         apt-get update
-        apt-get install -y texlive-latex-base texlive-lang-spanish texlive-latex-extra make
+        DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-lang-spanish texlive-latex-extra make
 
     # Making release
     - name: Making release
-        run: make
+      run: make
 
     # Uploading artifact
     - name: Upload artifact

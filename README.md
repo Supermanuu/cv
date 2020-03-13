@@ -1,5 +1,7 @@
 # CV
 
+![.github/workflows/release.yml](https://github.com/Supermanuu/cv/workflows/.github/workflows/release.yml/badge.svg?branch=master)
+
 Manuel Pascual López CV
 
 ## Purpose
