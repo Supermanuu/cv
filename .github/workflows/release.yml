@@ -25,8 +25,8 @@ jobs:
     # Setting up environment
     - name: Insalling Latex dependencies
       run: |
-        apt-get update
-        DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-lang-spanish texlive-latex-extra make
+        sudo apt-get update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-lang-spanish texlive-latex-extra make
 
     # Making release
     - name: Making release
