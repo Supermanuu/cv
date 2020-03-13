@@ -1,6 +1,6 @@
 # CV
 
-![.github/workflows/release.yml](https://github.com/Supermanuu/cv/workflows/.github/workflows/release.yml/badge.svg?branch=master)
+![CI](https://github.com/Supermanuu/cv/workflows/CI/badge.svg?branch=master)
 
 Manuel Pascual López CV
 
