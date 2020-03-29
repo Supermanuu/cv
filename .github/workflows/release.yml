@@ -2,13 +2,11 @@
 
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request 
-# events but only for the master branch
+# The action is only triggered on push a new verison tag
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - 'v*.*.*'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -26,11 +24,48 @@ jobs:
     - name: Insalling Latex dependencies
       run: |
         sudo apt-get update
-        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-lang-spanish texlive-latex-extra make
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y texlive-latex-base texlive-lang-spanish texlive-latex-extra icc-profiles make
 
     # Making release
     - name: Making release
       run: make
+
+    # Generating changelog
+    - name: Generate changelog
+      uses: charmixer/auto-changelog-action@v1
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Commiting changelog
+    - name: Commit changelog
+      env:
+        CI_USER: ${{ secrets.YOUR_GITHUB_USER }}
+        CI_EMAIL: ${{ secrets.YOUR_GITHUB_EMAIL }}
+      run: |
+        git config --local user.email "$CI_EMAIL"
+        git config --local user.name "$CI_USER"
+        git add CHANGELOG.md && git commit -m 'Updated CHANGELOG.md' && echo ::set-env name=push::1 || echo "No changes to CHANGELOG.md"
+
+    # Pushing changelog
+    - name: Push changelog
+      if: env.push == 1
+      env:
+        CI_USER: ${{ secrets.YOUR_GITHUB_USER }}
+        CI_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git push "https://$CI_USER:$CI_TOKEN@github.com/$GITHUB_REPOSITORY.git" HEAD:master
+
+    # Release
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      #if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          cv.pdf
+          CHANGELOG.md
+        body_path: CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # Uploading artifact
     - name: Upload artifact
@@ -38,5 +73,6 @@ jobs:
       with:
         # Artifact name
         name: Curriculum release
+        body: env.commitmsg
         # Directory containing files to upload
-        path: cv.pdf
+        path: cv.pdf CHANGELOG.md
